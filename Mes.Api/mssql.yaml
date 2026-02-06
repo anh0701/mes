@@ -1,6 +1,7 @@
 services:
-  mes-api:
+  mssql:
     image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: mes-mssql
     environment:
       - ACCEPT_EULA=Y
       - MSSQL_SA_PASSWORD=YourStrong@Passw0rd
@@ -8,7 +9,8 @@ services:
       - 5533:1433
     volumes:
       - store-vol:/var/opt/mssql
-    entrypoint: ["/bin/bash", "/init/entrypoint.sh"]
+      - ./init:/init
+    # entrypoint: ["/bin/bash", "/init/entrypoint.sh"]
 volumes:
   store-vol:
     external: true
