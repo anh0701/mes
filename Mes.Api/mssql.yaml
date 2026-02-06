@@ -8,6 +8,7 @@ services:
       - 5533:1433
     volumes:
       - store-vol:/var/opt/mssql
+    entrypoint: ["/bin/bash", "/init/entrypoint.sh"]
 volumes:
   store-vol:
     external: true
