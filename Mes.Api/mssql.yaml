@@ -8,9 +8,9 @@ services:
     ports:
       - 5533:1433
     volumes:
-      - store-vol:/var/opt/mssql
+      - mes-vol:/var/opt/mssql
       - ./init:/init
-    # entrypoint: ["/bin/bash", "/init/entrypoint.sh"]
+    entrypoint: ["/bin/bash", "/init/entrypoint.sh"]
 volumes:
-  store-vol:
+  mes-vol:
     external: true

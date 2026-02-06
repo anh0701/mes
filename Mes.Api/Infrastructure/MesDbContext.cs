@@ -5,7 +5,7 @@ public class MesDbContext : DbContext
     public MesDbContext(DbContextOptions<MesDbContext> options)
         : base(options) { }
 
-    public DbSet<Plant> Plants => Set<Plant>();
-    public DbSet<Line> Lines => Set<Line>();
-    public DbSet<Machine> Machines => Set<Machine>();
+    public DbSet<Plant> Plant => Set<Plant>();
+    public DbSet<Line> Line => Set<Line>();
+    public DbSet<Machine> Machine => Set<Machine>();
 }

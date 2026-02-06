@@ -13,7 +13,7 @@ GO
 
 CREATE TABLE Line (
     LineId INT IDENTITY PRIMARY KEY,
-    PlantId INT PRIMARY KEY,
+    PlantId INT,
     LineCode VARCHAR(50),
     LineName VARCHAR(50),
     CONSTRAINT FK_Plant_Line
@@ -54,7 +54,7 @@ CREATE TABLE RoutingStep (
     RoutingStepId INT IDENTITY PRIMARY KEY,
     RoutingId INT,
     StepNo VARCHAR(50),
-    ProcessName  VARCHAR(225)
+    ProcessName  VARCHAR(225),
     MachineId INT,
     CONSTRAINT FK_Routing_RoutingStep
         FOREIGN KEY (RoutingId)
@@ -121,6 +121,7 @@ CREATE TABLE QualityInspection (
     InspectionId INT IDENTITY PRIMARY KEY,
     ExecutionId INT,
     Result VARCHAR(50),
+    Status VARCHAR(50),
     CONSTRAINT CK_QualityInspection_Status
         CHECK (Status IN ('Pass', 'Fail')),
     InspectionTime INT,
@@ -172,11 +173,11 @@ CREATE TABLE DowntimeReason (
 );
 GO
 
-CREATE TABLE User (
+CREATE TABLE Users (
     UserId INT IDENTITY PRIMARY KEY,
     UserName VARCHAR(50),
     Role VARCHAR(50),
     CONSTRAINT CK_User_Role
-        CHECK (Status IN ('Operator', 'Supervisor', 'Engineer'))
+        CHECK (Role IN ('Operator', 'Supervisor', 'Engineer'))
 );
 GO

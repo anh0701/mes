@@ -23,7 +23,7 @@ app.UseHttpsRedirection();
 
 app.MapGet("/plants", async (MesDbContext db) =>
 {
-    return await db.Plants.ToListAsync();
+    return await db.Plant.ToListAsync();
 }).WithName("plants")
 .WithOpenApi();
 
