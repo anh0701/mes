@@ -4,4 +4,6 @@ cd Mes.Api
 
 podman-compose -f ./mssql.yaml up -d
 
-dotnet run
+# dotnet run
+
+dotnet watch run

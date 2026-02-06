@@ -124,7 +124,7 @@ CREATE TABLE QualityInspection (
     Status VARCHAR(50),
     CONSTRAINT CK_QualityInspection_Status
         CHECK (Status IN ('Pass', 'Fail')),
-    InspectionTime INT,
+    InspectionTime DATETIME,
     CONSTRAINT FK_QualityInspection_ProductionExecution
         FOREIGN KEY (ExecutionId)
         REFERENCES ProductionExecution(ExecutionId)
@@ -181,3 +181,11 @@ CREATE TABLE Users (
         CHECK (Role IN ('Operator', 'Supervisor', 'Engineer'))
 );
 GO
+
+-- insert
+
+INSERT INTO ProductionOrder
+(POCode, ProductId, PlantQty, Status)
+VALUES
+('PO-2026-001', 1, 1000, 'Planned');
+
