@@ -4,6 +4,7 @@ using System.Data;
 
 [ApiController]
 [Route("api/production-orders")]
+[Tags("03 - Production Order")]
 public class ProductionOrderController : ControllerBase
 {
     private readonly IDbConnection _db;

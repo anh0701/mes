@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 [ApiController]
 [Route("api/products")]
+[Tags("01 - Product Master")]
 public class ProductController : ControllerBase
 {
     private readonly IDbConnection _db;

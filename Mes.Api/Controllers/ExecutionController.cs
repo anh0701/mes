@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 [ApiController]
 [Route("api/executions")]
+[Tags("04 - Execution")]
 public class ExecutionController : ControllerBase
 {
     private readonly IDbConnection _db;

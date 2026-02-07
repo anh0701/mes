@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 [ApiController]
 [Route("api/machines")]
+[Tags("02 - Machine & Line")]
 public class MachineController : ControllerBase
 {
     private readonly IDbConnection _db;

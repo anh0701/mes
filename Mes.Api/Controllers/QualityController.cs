@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 [ApiController]
 [Route("api/quality")]
+[Tags("05 - Quality Control")]
 public class QualityController : ControllerBase
 {
     private readonly IDbConnection _db;
