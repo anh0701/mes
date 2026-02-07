@@ -15,7 +15,7 @@ public class ProductController : ControllerBase
     }
 
     [HttpPost("add")]
-    public async Task<IActionResult> add(ProductRequest req)
+    public async Task<IActionResult> Create(ProductRequest req)
     {
         var sql = """
         INSERT INTO Product
