@@ -124,7 +124,7 @@ CREATE TABLE QualityInspection (
     Status VARCHAR(50),
     CONSTRAINT CK_QualityInspection_Status
         CHECK (Status IN ('Pass', 'Fail')),
-    InspectionTime DATETIME,
+    InspectionTime DATETIME NOT NULL DEFAULT GETDATE(),
     CONSTRAINT FK_QualityInspection_ProductionExecution
         FOREIGN KEY (ExecutionId)
         REFERENCES ProductionExecution(ExecutionId)
