@@ -2,12 +2,6 @@ using System.Data;
 using Dapper;
 using Microsoft.AspNetCore.Mvc;
 
-public record CreateInspectionRequest(
-    int ExecutionId,
-    string Result,
-    string Status
-);
-
 [ApiController]
 [Route("api/quality")]
 public class QualityController : ControllerBase

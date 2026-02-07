@@ -184,8 +184,8 @@ GO
 
 -- insert
 
-INSERT INTO ProductionOrder
-(POCode, ProductId, PlantQty, Status)
-VALUES
-('PO-2026-001', 1, 1000, 'Planned');
+-- INSERT INTO ProductionOrder
+-- (POCode, ProductId, PlantQty, Status)
+-- VALUES
+-- ('PO-2026-001', 1, 1000, 'Planned');
 
