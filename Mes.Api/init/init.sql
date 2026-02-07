@@ -173,6 +173,19 @@ CREATE TABLE DowntimeReason (
 );
 GO
 
+CREATE TABLE MachineDowntime (
+    DowntimeId INT IDENTITY PRIMARY KEY,
+    MachineId INT NOT NULL,
+    ReasonId INT NOT NULL,
+    StartTime DATETIME NOT NULL DEFAULT GETDATE(),
+    EndTime DATETIME,
+    CONSTRAINT FK_Downtime_Machine
+        FOREIGN KEY (MachineId) REFERENCES Machine(MachineId),
+    CONSTRAINT FK_Downtime_Reason
+        FOREIGN KEY (ReasonId) REFERENCES DowntimeReason(ReasonId)
+);
+GO
+
 CREATE TABLE Users (
     UserId INT IDENTITY PRIMARY KEY,
     UserName VARCHAR(50),
