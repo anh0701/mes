@@ -17,17 +17,46 @@ public class ExecutionController : ControllerBase
     [HttpPost("start")]
     public async Task<IActionResult> Start(StartExecutionRequest req)
     {
-        var sql = """
+        using var tx = _db.BeginTransaction();
+        var checkSql = """
+        SELECT Status
+        FROM ProductionOrderStep
+        WHERE POId = @PoId AND RoutingStepId = @RoutingStepId
+        """;
+
+        var status = await _db.ExecuteScalarAsync<string>(
+            checkSql, req, tx);
+
+        if (status != "Planned")
+            return BadRequest("Step is not in Planned status");
+
+        var insertSql = """
         INSERT INTO ProductionExecution
         (POId, RoutingStepId, MachineId, InputQty)
         VALUES (@PoId, @RoutingStepId, @MachineId, @InputQty);
+        """;
 
+        await _db.ExecuteAsync(insertSql, req, tx);
+
+        var updateStepSql = """
         UPDATE ProductionOrderStep
         SET Status = 'Running'
         WHERE POId = @PoId AND RoutingStepId = @RoutingStepId;
         """;
+        await _db.ExecuteAsync(updateStepSql, req, tx);
 
-        await _db.ExecuteAsync(sql, req);
+        tx.Commit();
+        // var sql = """
+        // INSERT INTO ProductionExecution
+        // (POId, RoutingStepId, MachineId, InputQty)
+        // VALUES (@PoId, @RoutingStepId, @MachineId, @InputQty);
+
+        // UPDATE ProductionOrderStep
+        // SET Status = 'Running'
+        // WHERE POId = @PoId AND RoutingStepId = @RoutingStepId;
+        // """;
+
+        // await _db.ExecuteAsync(sql, req);
         return Ok();
     }
 
@@ -37,7 +66,9 @@ public class ExecutionController : ControllerBase
         int outputQty,
         int ngQty)
     {
-        var sql = """
+        using var tx = _db.BeginTransaction();
+
+        var finishSql = """
         UPDATE ProductionExecution
         SET EndTime = GETDATE(),
             OutputQty = @OutputQty,
@@ -45,12 +76,32 @@ public class ExecutionController : ControllerBase
         WHERE ExecutionId = @ExecutionId;
         """;
 
-        await _db.ExecuteAsync(sql, new
+        await _db.ExecuteAsync(finishSql, new
         {
             ExecutionId = executionId,
             OutputQty = outputQty,
             NgQty = ngQty
-        });
+        }, tx);
+
+        var updateStepSql = """
+        UPDATE ProductionOrderStep
+        SET Status = 'Completed'
+        WHERE RoutingStepId = (
+            SELECT RoutingStepId
+            FROM ProductionExecution
+            WHERE ExecutionId = @ExecutionId
+        )
+        AND POId = (
+            SELECT POId
+            FROM ProductionExecution
+            WHERE ExecutionId = @ExecutionId
+        );
+        """;
+
+        await _db.ExecuteAsync(updateStepSql,
+            new { ExecutionId = executionId }, tx);
+
+        tx.Commit();
 
         return Ok();
     }
