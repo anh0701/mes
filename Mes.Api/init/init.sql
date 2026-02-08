@@ -195,6 +195,24 @@ CREATE TABLE Users (
 );
 GO
 
+CREATE TABLE MachineLineHistory (
+    MachineLineHistoryId INT IDENTITY PRIMARY KEY,
+    MachineId INT,
+    LineId INT,
+    FromTime DATETIME,
+    ToTime DATETIME,
+    CONSTRAINT FK_MachineLineHistory_Machine
+        FOREIGN KEY (MachineId) REFERENCES Machine(MachineId),
+    CONSTRAINT FK_MachineLineHistory_Line
+        FOREIGN KEY (LineId) REFERENCES Line(LineId)
+);
+GO
+
+CREATE UNIQUE INDEX UX_Machine_ActiveLine
+ON MachineLineHistory(MachineId)
+WHERE ToTime IS NULL;
+GO
+
 -- insert
 
 -- INSERT INTO ProductionOrder
